@@ -1,0 +1,11 @@
+title: CBN Fiber Sales
+url: "https://cbnfibersales.com"
+baseurl: ""
+lang: id
+permalink: /blog/:title/
+markdown: kramdown
+plugins: []
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
