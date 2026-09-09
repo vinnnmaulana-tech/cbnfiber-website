@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ page.title }} | CBN Fiber</title>
+<meta name="description" content="{{ page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 155 }}">
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<style>
+body{margin:0;background:#031b52;color:#fff;font-family:Arial,Helvetica,sans-serif;line-height:1.7}.wrap{width:min(850px,92%);margin:auto}.top{padding:20px 0;border-bottom:1px solid #174b91}.top a{color:#fff;text-decoration:none;font-weight:800}.article{background:#fff;color:#17335c;margin:45px auto;padding:35px;border-radius:24px}.article h1{font-size:clamp(32px,6vw,52px);line-height:1.1;color:#062b72}.date{color:#66809e;font-size:14px}.article img{max-width:100%;height:auto;border-radius:16px}.article a{color:#0755c9}.back{display:inline-block;background:#ffd400;color:#06225d;padding:11px 18px;border-radius:24px;font-weight:800;text-decoration:none}@media(max-width:600px){.article{padding:22px;margin:25px auto}}
+</style>
+</head><body><div class="wrap"><div class="top"><a href="/">← CBN Fiber</a></div><article class="article"><div class="date">{{ page.date | date: "%d %B %Y" }}</div><h1>{{ page.title }}</h1>{{ content }}<br><a class="back" href="/blog/">← Semua Artikel</a></article></div></body></html>
