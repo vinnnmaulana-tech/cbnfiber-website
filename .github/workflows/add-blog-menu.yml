@@ -12,23 +12,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add Blog / Artikel menu
+
+      - name: Prepare CBN favicon
+        uses: mfinelli/setup-imagemagick@v8
+
+      - name: Fix favicon and generate PNG
         run: |
+          magick favicon.svg -background none -resize 96x96 favicon.png
           python - <<'PY'
           from pathlib import Path
+          import re
+
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
+
+          # Replace the old inline placeholder favicon with the real CBN favicon.
+          pattern = r'<link\s+href="data:image/svg\+xml,[^"]+"\s+rel="icon"\s*/>'
+          replacement = '<link rel="icon" type="image/png" sizes="96x96" href="/favicon.png"/>\n<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>'
+          s, count = re.subn(pattern, replacement, s, count=1)
+          if count == 0:
+              raise SystemExit('Old inline favicon marker not found')
+
+          # Keep the Blog / Artikel menu in place.
           if 'href="/blog/">Blog / Artikel</a>' not in s:
               marker = '<a href="#faq">FAQ</a>'
               if marker not in s:
                   raise SystemExit('FAQ menu marker not found')
               s = s.replace(marker, marker + '\n<a href="/blog/">Blog / Artikel</a>', 1)
-              p.write_text(s, encoding='utf-8')
+
+          p.write_text(s, encoding='utf-8')
           PY
-      - name: Commit menu change
+
+      - name: Commit favicon and menu changes
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add index.html
-          git diff --cached --quiet || git commit -m 'Add Blog / Artikel menu'
+          git add index.html favicon.png
+          git diff --cached --quiet || git commit -m 'Fix CBN favicon'
           git push
